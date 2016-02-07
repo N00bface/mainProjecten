@@ -2,60 +2,68 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
 
 public class Gui {
     //Gui vars
     //basic
-    private JFrame jFrameMain = new JFrame("Fysica wetten");
-    private JTabbedPane jTabbedMenu = new JTabbedPane(SwingConstants.TOP);
-    private JPanel jPanelMainMirror = new JPanel();
-    private JPanel jPanelInputMirror = new JPanel(new GridBagLayout());
-    private JPanel jPanelMirror = new JPanel(null);
-    private JPanel jPanelRefraction = new JPanel(null);
-    private JPanel jPanelBounce = new JPanel(null);
-
+    private JFrame frame = new JFrame("Physics laws");
+    private JPanel mainPanel = new JPanel(null);
+    private JPanel inputPanel = new JPanel(new GridBagLayout());
+    //variable components
+    private JComboBox mirrorSortComboBox = new JComboBox(new String[]{"flat", "hollow", "rounded"});
+    //layout variables
+    private GridBagConstraints constrains = new GridBagConstraints();
+    private JSpinner angleSpinner = new JSpinner(new SpinnerNumberModel(0, 0, 179, 0.1));
     //end of Gui vars
     public Gui() {
-        guiBasicSetup();
+        panelSetup();
+        componentSetup();
+        addComponents();
+        setupActionListeners();
     }
 
-    private void guiBasicSetup() {
-        //jFrameMain
-        jFrameMain.setSize(1080, 720);
-        jFrameMain.setLocationRelativeTo(null);
-        jFrameMain.setVisible(true);
-        jFrameMain.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        //JPanels
-        // TODO: 04.02.16 action if screen size changes
-        jPanelMainMirror.setSize((jFrameMain.getWidth() / 10) * 8, jFrameMain.getHeight());
-        jPanelMainMirror.setLocation(0, 0);
-        jPanelInputMirror.setSize(jFrameMain.getWidth() / 10 * 2, jFrameMain.getHeight());
-        jPanelInputMirror.setLocation(jPanelMainMirror.getWidth(), 0);
-        JPanel jPanelMainRefraction = jPanelMainMirror;
-        JPanel jPanelInputRefraction = jPanelInputMirror;
-        JPanel jPanelMainBounce = jPanelMainMirror;
-        JPanel jPanelInputBounce = jPanelInputMirror;
-        //jPanel decoration
-        jPanelInputMirror.setBorder(BorderFactory.createTitledBorder("input"));
-        // TODO: 04.02.16 add components
-        jTabbedMenu.addTab("mirror", jPanelMirror);
-        jTabbedMenu.addTab("refraction", jPanelRefraction);
-        jTabbedMenu.addTab("bounce", jPanelBounce);
-        jFrameMain.add(jTabbedMenu);
-        jPanelMirror.add(jPanelMainMirror);
-        jPanelMirror.add(jPanelInputMirror);
-        jPanelRefraction.add(jPanelMainRefraction);
-        jPanelRefraction.add(jPanelInputRefraction);
-        jPanelBounce.add(jPanelInputBounce);
-        jPanelBounce.add(jPanelMainBounce);
-        //// FIXME: 04.02.16 overlapping jPanelMain and JPanelInput
+    private void componentSetup() {
+    }
 
+    private void addComponents() {
+        frame.add(mainPanel);
+        frame.add(inputPanel);
+        inputPanel.add(new JLabel("mirror laws"), getConstrainsPlace(0, 0));
+        inputPanel.add(new JLabel("sort: "), getConstrainsPlace(0, 1));
+        inputPanel.add(mirrorSortComboBox, getConstrainsPlace(1, 1));
+        inputPanel.add(new JLabel("angle: "),getConstrainsPlace(0,2));
+        mainPanel.add(angleSpinner);
+    }
+
+    private void setupActionListeners() {
+        frame.addComponentListener(new ComponentAdapter() {
+            public void componentResized(ComponentEvent e) {
+                setSizesAndPlacesForComponents();
+            }
+        });
+    }
+
+    private void panelSetup() {
+        frame.setSize(1080, 720);
+        frame.setLocationRelativeTo(null);
+        frame.setVisible(true);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+        inputPanel.setBorder(BorderFactory.createTitledBorder("input"));
+        setSizesAndPlacesForComponents();
+    }
+
+    private void setSizesAndPlacesForComponents() {
+        mainPanel.setSize((frame.getWidth() / 10) * 8 - 2, frame.getHeight());
+        inputPanel.setSize(frame.getWidth() / 10 * 2, frame.getHeight());
+        mainPanel.setLocation(0, 0);
+        inputPanel.setLocation(mainPanel.getWidth(), 0);
     }
 
     private GridBagConstraints getConstrainsPlace(int x, int y) {
-        GridBagConstraints constraints = new GridBagConstraints();
-        constraints.gridx = x;
-        constraints.gridy = y;
-        return constraints;
+        constrains.gridx = x;
+        constrains.gridy = y;
+        return constrains;
     }
 }
