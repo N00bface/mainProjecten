@@ -17,8 +17,8 @@ public class Gui {
     //variable components
     private JComboBox<String> mirrorSortComboBox = new JComboBox<>(new String[]{"flat", "hollow", "rounded"});
     private JSpinner angleSpinnerMirror = new JSpinner(model);
-    private JButton openDatabaseForSubstance1 = new JButton("...");
-    private JButton openDatabaseForSubstance2 = new JButton("...");
+    private JButton openDatabaseForSubstance1 = new JButton("select");
+    private JButton openDatabaseForSubstance2 = new JButton("select");
     //end of Gui vars
 
     public Gui() {

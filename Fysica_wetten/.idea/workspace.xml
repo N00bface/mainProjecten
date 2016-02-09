@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="538dad0f-82dc-4d41-aa8a-74404441a9c6" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/Draw.class" afterPath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/Draw.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/Gui$1.class" afterPath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/Gui$1.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/Gui.class" afterPath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/Gui.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/MainMethod.class" afterPath="$PROJECT_DIR$/out/production/Fysica_spiegelwetten/main/MainMethod.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/Gui.java" afterPath="$PROJECT_DIR$/src/main/Gui.java" />
     </list>
     <ignored path="Fysica_spiegelwetten.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -48,8 +45,8 @@
       <file leaf-file-name="Gui.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/main/Gui.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.09148265">
-              <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.43217665">
+              <caret line="20" column="67" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -516,7 +513,13 @@
       <option name="project" value="LOCAL" />
       <updated>1455034410359</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="Fourth Commit">
+      <created>1455034417454</created>
+      <option name="number" value="00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1455034417454</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="ToolWindowManager">
@@ -775,8 +778,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/Gui.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.09148265">
-          <caret line="38" column="0" selection-start-line="38" selection-start-column="0" selection-end-line="38" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.43217665">
+          <caret line="20" column="67" selection-start-line="20" selection-start-column="67" selection-end-line="20" selection-end-column="67" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
