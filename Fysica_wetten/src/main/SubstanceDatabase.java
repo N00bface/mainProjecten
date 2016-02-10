@@ -2,8 +2,6 @@ package main;
 
 import objects.Tuple;
 
-import javax.swing.*;
-import java.awt.*;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -16,26 +14,6 @@ import java.util.List;
  * @version 0.1
  */
 public class SubstanceDatabase {
-    private JFrame frame = new JFrame("substance table");
-    private JPanel panel = new JPanel();
-    private JScrollPane listScroller = new JScrollPane();
-    private JList<String> list = new JList<>(Resources.getRefractionIndeces());
-
-    public SubstanceDatabase() {
-
-        listScroller.add(list);
-        makeBasicGui();
-        panel.setBackground(Color.GREEN);
-    }
-
-    private void makeBasicGui() {
-        frame.setSize(1000, 900);
-        frame.setResizable(false);
-        frame.setVisible(true);
-        frame.add(panel);
-        panel.add(list);
-    }
-
 
     public static String[] getSubstances() {
         ArrayList<String> arrayList = new ArrayList<>();
