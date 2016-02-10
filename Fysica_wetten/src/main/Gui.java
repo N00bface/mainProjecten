@@ -2,8 +2,6 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 /**
  * @author Jari Van Melckebeke
@@ -20,17 +18,16 @@ public class Gui {
     private JPanel inputPanel = new JPanel(new GridBagLayout());
     //variable components
     private JComboBox<String> mirrorSortComboBox = new JComboBox<>(new String[]{"flat", "hollow", "rounded"});
+    private JComboBox<String> substanceComboBox1 = new JComboBox<>(SubstanceDatabase.getSubstances());
+    private JComboBox<String> substanceComboBox2 = new JComboBox<>(SubstanceDatabase.getSubstances());
     private JSpinner angleSpinnerMirror = new JSpinner(new SpinnerNumberModel(0, 0, 360, 0.1));
-    private JComboBox<String> openDatabaseForSubstance1 = new JComboBox<>(SubstanceDatabase.getSubstances());
-    private JComboBox<String> openDatabaseForSubstance2 = new JComboBox<>(SubstanceDatabase.getSubstances());
     private JSpinner indicentRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
     private JSpinner refractedRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
-    private JLabel maxAngle = new JLabel(Calculator.getMaxAngle(openDatabaseForSubstance1.getSelectedIndex(), openDatabaseForSubstance2.getSelectedIndex()));
+    private JLabel maxAngle = new JLabel(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
     //end of Gui vars
 
     public Gui() {
         panelSetup();
-        componentSetup();
         addComponents();
         setupActionListeners();
     }
@@ -45,10 +42,6 @@ public class Gui {
         return constraints;
     }
 
-    private void componentSetup() {
-
-    }
-
     private void addComponents() {
         frame.add(mainPanel, BorderLayout.LINE_START);
         frame.add(inputPanel, BorderLayout.LINE_END);
@@ -60,9 +53,9 @@ public class Gui {
         inputPanel.add(new JLabel(" "), setGridBagPlace(0, 3));
         inputPanel.add(new JLabel("laws of refraction"), setGridBagPlace(0, 4));
         inputPanel.add(new JLabel("substance 1: "), setGridBagPlace(0, 5));
-        inputPanel.add(openDatabaseForSubstance1, setGridBagPlace(1, 5));
+        inputPanel.add(substanceComboBox1, setGridBagPlace(1, 5));
         inputPanel.add(new JLabel("substance 2: "), setGridBagPlace(0, 6));
-        inputPanel.add(openDatabaseForSubstance2, setGridBagPlace(1, 6));
+        inputPanel.add(substanceComboBox2, setGridBagPlace(1, 6));
         inputPanel.add(new JLabel("indicent ray: "), setGridBagPlace(0, 7));
         inputPanel.add(indicentRayAngleRefraction, setGridBagPlace(1, 7));
         inputPanel.add(new JLabel("refracted ray: "), setGridBagPlace(0, 8));
@@ -72,18 +65,12 @@ public class Gui {
     }
 
     private void setupActionListeners() {
-        openDatabaseForSubstance1.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                maxAngle.setText(Calculator.getMaxAngle(openDatabaseForSubstance1.getSelectedIndex(), openDatabaseForSubstance2.getSelectedIndex()));
-            }
-        });
-        openDatabaseForSubstance2.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                maxAngle.setText(Calculator.getMaxAngle(openDatabaseForSubstance1.getSelectedIndex(), openDatabaseForSubstance2.getSelectedIndex()));
-            }
-        });
+        substanceComboBox1.addActionListener(e -> maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex())));
+        substanceComboBox2.addActionListener(e -> maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex())));
+        mirrorSortComboBox.addActionListener(e -> new SetupMirrorScene(mirrorSortComboBox.getSelectedIndex(), (Double) angleSpinnerMirror.getValue()));
+        angleSpinnerMirror.addChangeListener(e -> new SetupMirrorScene(mirrorSortComboBox.getSelectedIndex(), (Double) angleSpinnerMirror.getValue()));
+        indicentRayAngleRefraction.addChangeListener(e -> new SetupRefractionScene((Double) indicentRayAngleRefraction.getValue(), substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+        refractedRayAngleRefraction.addChangeListener(e -> new SetupRefractionScene((Double) refractedRayAngleRefraction.getValue(), substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
     }
 
     private void panelSetup() {

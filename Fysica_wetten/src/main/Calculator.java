@@ -14,7 +14,7 @@ public class Calculator {
         double refractiveIndex = indexes.get(substance1).getValue() / indexes.get(substance2).getValue();
         //n*sin ^r = sin î
         double sinI = refractiveIndex * Math.sin(Math.toRadians(90));
-        System.out.println(sinI);
+        //System.out.println(sinI);
         return String.valueOf(Math.toDegrees(Math.asin(sinI)));
     }
 }
