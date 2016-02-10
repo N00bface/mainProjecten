@@ -1,7 +1,8 @@
 package objects;
 
 /**
- * Created by jari on 10.02.16.
+ * @author Jari Van Melckebeke
+ * @version 0.1
  */
 public class Tuple<K, V> {
     private K Key;

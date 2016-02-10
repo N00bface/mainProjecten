@@ -23,6 +23,7 @@ public class SubstanceDatabase {
             //System.out.println("key = "+tuple.getKey());
             arrayList.add(tuple.getKey());
         }
+        Resources.setSubstanceList(arrayList.toArray(new String[arrayList.size()]));
         return arrayList.toArray(new String[arrayList.size()]);
     }
 
@@ -39,6 +40,7 @@ public class SubstanceDatabase {
                 tuples.add(new Tuple<>(key, value));
                 //System.out.println(tuples.toString());
             }
+            Resources.setSubstances(tuples);
             return tuples;
         } catch (IOException ignored) {
             return null;

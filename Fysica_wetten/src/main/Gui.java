@@ -2,6 +2,8 @@ package main;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Jari Van Melckebeke
@@ -23,6 +25,7 @@ public class Gui {
     private JComboBox<String> openDatabaseForSubstance2 = new JComboBox<>(SubstanceDatabase.getSubstances());
     private JSpinner indicentRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
     private JSpinner refractedRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
+    private JLabel maxAngle = new JLabel(Calculator.getMaxAngle(openDatabaseForSubstance1.getSelectedIndex(), openDatabaseForSubstance2.getSelectedIndex()));
     //end of Gui vars
 
     public Gui() {
@@ -65,9 +68,22 @@ public class Gui {
         inputPanel.add(new JLabel("refracted ray: "), setGridBagPlace(0, 8));
         inputPanel.add(refractedRayAngleRefraction, setGridBagPlace(1, 8));
         inputPanel.add(new JLabel("total internal reflection angle: "), setGridBagPlace(0, 9));
+        inputPanel.add(maxAngle, setGridBagPlace(1, 9));
     }
 
     private void setupActionListeners() {
+        openDatabaseForSubstance1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                maxAngle.setText(Calculator.getMaxAngle(openDatabaseForSubstance1.getSelectedIndex(), openDatabaseForSubstance2.getSelectedIndex()));
+            }
+        });
+        openDatabaseForSubstance2.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                maxAngle.setText(Calculator.getMaxAngle(openDatabaseForSubstance1.getSelectedIndex(), openDatabaseForSubstance2.getSelectedIndex()));
+            }
+        });
     }
 
     private void panelSetup() {
