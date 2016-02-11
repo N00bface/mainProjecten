@@ -10,6 +10,7 @@ import java.awt.*;
 public class Gui {
     //special vars
     private GridBagConstraints constraints = new GridBagConstraints();
+    private boolean bool = true;
     //end of special vars
     //Gui vars
     //basic
@@ -24,8 +25,8 @@ public class Gui {
     private JSpinner indicentRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
     private JSpinner refractedRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
     private JLabel maxAngle = new JLabel(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
-    //end of Gui vars
 
+    //end of Gui vars
     public Gui() {
         panelSetup();
         addComponents();
@@ -34,7 +35,7 @@ public class Gui {
 
     private GridBagConstraints setGridBagPlace(int x, int y) {
         constraints.gridwidth = 1;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
+        //constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weighty = 0.5;
         constraints.weightx = 0.5;
         constraints.gridx = x;
@@ -67,10 +68,22 @@ public class Gui {
     private void setupActionListeners() {
         substanceComboBox1.addActionListener(e -> maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex())));
         substanceComboBox2.addActionListener(e -> maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex())));
-        mirrorSortComboBox.addActionListener(e -> new SetupMirrorScene(mirrorSortComboBox.getSelectedIndex(), (Double) angleSpinnerMirror.getValue()));
-        angleSpinnerMirror.addChangeListener(e -> new SetupMirrorScene(mirrorSortComboBox.getSelectedIndex(), (Double) angleSpinnerMirror.getValue()));
-        indicentRayAngleRefraction.addChangeListener(e -> new SetupRefractionScene((Double) indicentRayAngleRefraction.getValue(), substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
-        refractedRayAngleRefraction.addChangeListener(e -> new SetupRefractionScene((Double) refractedRayAngleRefraction.getValue(), substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+        mirrorSortComboBox.addActionListener(e -> {
+            bool = true;
+            new Draw().paintComponent(mainPanel.getGraphics());
+        });
+        angleSpinnerMirror.addChangeListener(e -> {
+            bool = true;
+            new Draw().paintComponent(mainPanel.getGraphics());
+        });
+        indicentRayAngleRefraction.addChangeListener(e -> {
+            bool = false;
+            new Draw().paintComponent(mainPanel.getGraphics());
+        });
+        refractedRayAngleRefraction.addChangeListener(e -> {
+            bool = false;
+            new Draw().paintComponent(mainPanel.getGraphics());
+        });
     }
 
     private void panelSetup() {
@@ -81,7 +94,62 @@ public class Gui {
         frame.setVisible(true);
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         inputPanel.setBorder(BorderFactory.createTitledBorder("input"));
-        inputPanel.setPreferredSize(new Dimension(576, 1080));
+        inputPanel.setPreferredSize(new Dimension((int) (1920 * 0.3), 1080));
+        mainPanel.setPreferredSize(new Dimension((int) (1920 * 0.7) - inputPanel.getInsets().right * 2, 1080));
     }
 
+    class Draw extends JPanel {
+        private final int HALF_MAINPANEL = (mainPanel.getWidth() / 2);
+
+        @Override
+        public void paintComponent(Graphics g) {
+            super.paintComponent(g);
+            Graphics2D gr = (Graphics2D) g;
+            gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+            gr.clearRect(0, 0, (int) (1920 * 0.7 - inputPanel.getInsets().right * 2), 1080);
+            gr.translate(mainPanel.getWidth() / 2, mainPanel.getHeight() / 2);
+            if (bool) { //--> mirror
+                switch (mirrorSortComboBox.getSelectedIndex()) {
+                    case 0:
+                        gr.drawLine(0, -300, 0, 300);
+                        gr.setColor(Color.RED);
+                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, 0, 0);
+                        break;
+                    case 1:
+                        gr.drawArc(-300, -300, 600, 600, 90, -180);
+                        gr.setColor(Color.RED);
+                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculateXForRoundAngle(), calculateYforRoundAngle());
+                        break;
+                    case 2:
+                        gr.drawArc(0, -300, 600, 600, 90, 180);
+                        gr.setColor(Color.RED);
+                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculateXForConvexAngle(), calculateYforConvexAngle());
+                        break;
+                }
+            } else {
+
+            }
+            gr.dispose();
+        }
+
+        private int calculateYforConvexAngle() {
+            return 0;
+        }
+
+        private int calculateXForConvexAngle() {
+            return 0;
+        }
+
+        private int calculateXForRoundAngle() {
+            return 0;
+        }
+
+        private int calculateYforRoundAngle() {
+            return 0;
+        }
+
+        private double getAngleToCoordinates() {
+            return -(Math.tan(Math.toRadians((Double) angleSpinnerMirror.getValue())) * HALF_MAINPANEL);
+        }
+    }
 }
