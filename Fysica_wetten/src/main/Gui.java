@@ -118,12 +118,12 @@ public class Gui {
                     case 1:
                         gr.drawArc(-300, -300, 600, 600, 90, -180);
                         gr.setColor(Color.RED);
-                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculateXForRoundAngle(), calculateYforRoundAngle());
+                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculatePointForRoundAngle().x, calculatePointForRoundAngle().y);
                         break;
                     case 2:
                         gr.drawArc(0, -300, 600, 600, 90, 180);
                         gr.setColor(Color.RED);
-                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculateXForConvexAngle(), calculateYforConvexAngle());
+                        //gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculatePointforConvexAngle().x, calculatePointforConvexAngle().y);
                         break;
                 }
             } else {
@@ -132,20 +132,16 @@ public class Gui {
             gr.dispose();
         }
 
-        private int calculateYforConvexAngle() {
-            return 0;
-        }
+        /*private Point calculatePointforConvexAngle() {
 
-        private int calculateXForConvexAngle() {
-            return 0;
-        }
+        }*/
 
-        private int calculateXForRoundAngle() {
-            return 0;
-        }
-
-        private int calculateYforRoundAngle() {
-            return 0;
+        private Point calculatePointForRoundAngle() {
+            int x = (int) (Math.sin(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
+            int y = (int) (Math.cos(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
+            /*System.out.println("x="+x);
+            System.out.println("y="+y);*/
+            return new Point(x, y);
         }
 
         private double getAngleToCoordinates() {
