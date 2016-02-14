@@ -25,7 +25,7 @@ public class Gui {
     private JSpinner angleSpinnerMirror = new JSpinner(new SpinnerNumberModel(0, 0, 360, 0.1));
     private JSpinner indicentRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
     private JSpinner refractedRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
-    private JLabel maxAngle = new JLabel(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+    private JLabel maxAngle = new JLabel(Calculator.getMaxAngle(String.valueOf(substanceComboBox1.getSelectedItem()), String.valueOf(substanceComboBox2.getSelectedItem())));
 
     //end of Gui vars
     public Gui() {
@@ -75,12 +75,12 @@ public class Gui {
                 refractedRayAngleRefraction.setValue("TIR");
             }
             switchPointBetweenMirrorAndRefraction = false;
-            maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+            maxAngle.setText(Calculator.getMaxAngle(String.valueOf(substanceComboBox1.getSelectedItem()), String.valueOf(substanceComboBox2.getSelectedItem())));
             isTotalInternalRefractionActive = false;
         });
         substanceComboBox2.addActionListener(e -> {
             new Draw().paintComponent(mainPanel.getGraphics());
-            maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+            maxAngle.setText(Calculator.getMaxAngle(String.valueOf(substanceComboBox1.getSelectedItem()), String.valueOf(substanceComboBox2.getSelectedItem())));
             if (!isTotalInternalRefractionActive) {
                 refractedRayAngleRefraction.setValue(calculateRefractionAngle());
             } else {
@@ -132,8 +132,8 @@ public class Gui {
     }
 
     private double calculateRefractionAngle() {
-        if (Resources.getSubstances().get(substanceComboBox1.getSelectedIndex()).getValue() >= Resources.getSubstances().get(substanceComboBox2.getSelectedIndex()).getValue()) {
-            double nIndex = Resources.getSubstances().get(substanceComboBox1.getSelectedIndex()).getValue() / Resources.getSubstances().get(substanceComboBox2.getSelectedIndex()).getValue();
+        if (Resources.getSubstances().get(String.valueOf(substanceComboBox1.getSelectedItem())) >= Resources.getSubstances().get(String.valueOf(substanceComboBox2.getSelectedItem()))) {
+            double nIndex = Resources.getSubstances().get(String.valueOf(substanceComboBox1.getSelectedItem())) / Resources.getSubstances().get(String.valueOf(substanceComboBox2.getSelectedItem()));
             //System.out.println("nIndex = " + nIndex);
             double sinI = Math.sin(Math.toRadians((Double) indicentRayAngleRefraction.getValue()));
             //System.out.println("sinI = " + sinI);
@@ -142,7 +142,7 @@ public class Gui {
             //System.out.println("Math.toDegrees(Math.asin(sinR)) = " + Math.toDegrees(Math.asin(sinR)));
             return Math.toDegrees(Math.asin(sinR));
         } else {
-            double nIndex = Resources.getSubstances().get(substanceComboBox2.getSelectedIndex()).getValue() / Resources.getSubstances().get(substanceComboBox1.getSelectedIndex()).getValue();
+            double nIndex = Resources.getSubstances().get(String.valueOf(substanceComboBox2.getSelectedItem())) / Resources.getSubstances().get(String.valueOf(substanceComboBox1.getSelectedItem()));
             //System.out.println("nIndex = " + nIndex);
             //System.out.println("((Double) indicentRayAngleRefraction.getValue()) = " + indicentRayAngleRefraction.getValue());
             double sinI = Math.sin(Math.toRadians((Double) indicentRayAngleRefraction.getValue()));

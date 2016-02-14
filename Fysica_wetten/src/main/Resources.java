@@ -1,8 +1,6 @@
 package main;
 
-import objects.Tuple;
-
-import java.util.ArrayList;
+import objects.CDatabase;
 
 /**
  * @author Jari Van Melckebeke
@@ -10,7 +8,7 @@ import java.util.ArrayList;
  */
 public class Resources {
     private static String[] substanceList;
-    private static ArrayList<Tuple<String, Double>> substances;
+    private static CDatabase<String, Double> substances;
 
     public static void setSubstanceList(String[] list) {
         substanceList = list;
@@ -20,11 +18,11 @@ public class Resources {
         return substanceList;
     }
 
-    public static void setSubstances(ArrayList<Tuple<String, Double>> substances) {
+    public static void setSubstances(CDatabase<String, Double> substances) {
         Resources.substances = substances;
     }
 
-    public static ArrayList<Tuple<String, Double>> getSubstances() {
+    public static CDatabase<String, Double> getSubstances() {
         return substances;
     }
 }

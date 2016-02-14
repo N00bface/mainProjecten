@@ -1,17 +1,17 @@
 package main;
 
-import objects.Tuple;
-
-import java.util.ArrayList;
+import objects.CDatabase;
 
 /**
  * @author Jari Van Melckebeke
  * @version 0.1
  */
 public class Calculator {
-    public static String getMaxAngle(int substance1, int substance2) {
-        ArrayList<Tuple<String, Double>> indexes = Resources.getSubstances();
-        double refractiveIndex = indexes.get(substance1).getValue() / indexes.get(substance2).getValue();
+    public static String getMaxAngle(String substance1, String substance2) {
+        CDatabase<String, Double> indexes = Resources.getSubstances();
+        //System.out.println("substance2 = " + substance2);
+        //System.out.println("Resources.getSubstances() = " + Resources.getSubstances().toString());
+        double refractiveIndex = indexes.get(substance1) / indexes.get(substance2);
         //n*sin ^r = sin î
         double sinI = refractiveIndex * Math.sin(Math.toRadians(90));
         //System.out.println(sinI);
