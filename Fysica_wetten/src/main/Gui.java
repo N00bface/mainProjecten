@@ -10,7 +10,8 @@ import java.awt.*;
 public class Gui {
     //special vars
     private GridBagConstraints constraints = new GridBagConstraints();
-    private boolean bool = true;
+    private boolean switchPointBetweenMirrorAndRefraction = true;
+    private boolean isTotalInternalRefractionActive = false;
     //end of special vars
     //Gui vars
     //basic
@@ -66,23 +67,55 @@ public class Gui {
     }
 
     private void setupActionListeners() {
-        substanceComboBox1.addActionListener(e -> maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex())));
-        substanceComboBox2.addActionListener(e -> maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex())));
+        substanceComboBox1.addActionListener(e -> {
+            new Draw().paintComponent(mainPanel.getGraphics());
+            if (!isTotalInternalRefractionActive) {
+                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
+            } else {
+                refractedRayAngleRefraction.setValue("TIR");
+            }
+            switchPointBetweenMirrorAndRefraction = false;
+            maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+            isTotalInternalRefractionActive = false;
+        });
+        substanceComboBox2.addActionListener(e -> {
+            new Draw().paintComponent(mainPanel.getGraphics());
+            maxAngle.setText(Calculator.getMaxAngle(substanceComboBox1.getSelectedIndex(), substanceComboBox2.getSelectedIndex()));
+            if (!isTotalInternalRefractionActive) {
+                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
+            } else {
+                refractedRayAngleRefraction.setValue("TIR");
+            }
+            switchPointBetweenMirrorAndRefraction = false;
+            isTotalInternalRefractionActive = false;
+        });
         mirrorSortComboBox.addActionListener(e -> {
-            bool = true;
+            switchPointBetweenMirrorAndRefraction = true;
             new Draw().paintComponent(mainPanel.getGraphics());
         });
         angleSpinnerMirror.addChangeListener(e -> {
-            bool = true;
+            switchPointBetweenMirrorAndRefraction = true;
             new Draw().paintComponent(mainPanel.getGraphics());
         });
         indicentRayAngleRefraction.addChangeListener(e -> {
-            bool = false;
+            switchPointBetweenMirrorAndRefraction = false;
             new Draw().paintComponent(mainPanel.getGraphics());
+            if (!isTotalInternalRefractionActive) {
+                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
+            } else {
+                refractedRayAngleRefraction.setValue("TIR");
+            }
+            isTotalInternalRefractionActive = false;
         });
         refractedRayAngleRefraction.addChangeListener(e -> {
-            bool = false;
+            switchPointBetweenMirrorAndRefraction = false;
             new Draw().paintComponent(mainPanel.getGraphics());
+            if (!isTotalInternalRefractionActive) {
+                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
+            } else {
+                refractedRayAngleRefraction.setValue("TIR");
+            }
+            isTotalInternalRefractionActive = false;
         });
     }
 
@@ -98,6 +131,32 @@ public class Gui {
         mainPanel.setPreferredSize(new Dimension((int) (1920 * 0.7) - inputPanel.getInsets().right * 2, 1080));
     }
 
+    private double calculateRefractionAngle() {
+        if (Resources.getSubstances().get(substanceComboBox1.getSelectedIndex()).getValue() >= Resources.getSubstances().get(substanceComboBox2.getSelectedIndex()).getValue()) {
+            double nIndex = Resources.getSubstances().get(substanceComboBox1.getSelectedIndex()).getValue() / Resources.getSubstances().get(substanceComboBox2.getSelectedIndex()).getValue();
+            //System.out.println("nIndex = " + nIndex);
+            double sinI = Math.sin(Math.toRadians((Double) indicentRayAngleRefraction.getValue()));
+            //System.out.println("sinI = " + sinI);
+            double sinR = sinI / nIndex;
+            //System.out.println("sinR = " + sinR);
+            //System.out.println("Math.toDegrees(Math.asin(sinR)) = " + Math.toDegrees(Math.asin(sinR)));
+            return Math.toDegrees(Math.asin(sinR));
+        } else {
+            double nIndex = Resources.getSubstances().get(substanceComboBox2.getSelectedIndex()).getValue() / Resources.getSubstances().get(substanceComboBox1.getSelectedIndex()).getValue();
+            //System.out.println("nIndex = " + nIndex);
+            //System.out.println("((Double) indicentRayAngleRefraction.getValue()) = " + indicentRayAngleRefraction.getValue());
+            double sinI = Math.sin(Math.toRadians((Double) indicentRayAngleRefraction.getValue()));
+            //System.out.println("sinI = " + sinI);
+            double sinR = nIndex * sinI;
+            //System.out.println("sinR = " + sinR);
+            //System.out.println("Math.toDegrees(Math.asin(sinR)) = " + Math.toDegrees(Math.asin(sinR)));
+            if (String.valueOf(Math.toDegrees(Math.asin(sinR))).equals("NaN")) {
+                isTotalInternalRefractionActive = true;
+            }
+            return Math.toDegrees(Math.asin(sinR));
+        }
+    }
+
     class Draw extends JPanel {
         private final int HALF_MAINPANEL = (mainPanel.getWidth() / 2);
 
@@ -108,44 +167,63 @@ public class Gui {
             gr.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             gr.clearRect(0, 0, (int) (1920 * 0.7 - inputPanel.getInsets().right * 2), 1080);
             gr.translate(mainPanel.getWidth() / 2, mainPanel.getHeight() / 2);
-            if (bool) { //--> mirror
+            if (switchPointBetweenMirrorAndRefraction) { //--> mirror
                 switch (mirrorSortComboBox.getSelectedIndex()) {
                     case 0:
                         gr.drawLine(0, -300, 0, 300);
                         gr.setColor(Color.RED);
-                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, 0, 0);
+                        gr.drawLine((int) getAngleToCoordinatesForMirror(), -HALF_MAINPANEL, 0, 0);
                         break;
                     case 1:
                         gr.drawArc(-300, -300, 600, 600, 90, -180);
                         gr.setColor(Color.RED);
-                        gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculatePointForRoundAngle().x, calculatePointForRoundAngle().y);
+                        gr.drawLine((int) getAngleToCoordinatesForMirror(), -HALF_MAINPANEL, calculatePointForRoundAngle().x, calculatePointForRoundAngle().y);
                         break;
                     case 2:
-                        gr.drawArc(0, -300, 600, 600, 90, 180);
+                        gr.drawArc(-300, -300, 600, 600, 90, 180);
                         gr.setColor(Color.RED);
-                        //gr.drawLine((int) getAngleToCoordinates(), -HALF_MAINPANEL, calculatePointforConvexAngle().x, calculatePointforConvexAngle().y);
+                        gr.drawLine((int) getAngleToCoordinatesForMirror(), -HALF_MAINPANEL, calculatePointforConvexAngle().x, calculatePointforConvexAngle().y);
                         break;
                 }
             } else {
-
+                gr.setColor(new Color(173, 216, 230));
+                gr.fillRect(0, -(mainPanel.getHeight() / 2), HALF_MAINPANEL, mainPanel.getHeight());
+                gr.setColor(Color.RED);
+                gr.drawLine((int) getAngleToCoordinatesForRefraction(), -HALF_MAINPANEL, 0, 0);
+                gr.drawLine(0, 0, calculatePointForRefraction().x, calculatePointForRefraction().y);
             }
             gr.dispose();
         }
 
-        /*private Point calculatePointforConvexAngle() {
+        private Point calculatePointForRefraction() {
 
-        }*/
+            int x = HALF_MAINPANEL;
+            int y = (int) (x / Math.tan(Math.toRadians(calculateRefractionAngle())));
+            //System.out.println("y = " + y);
+            return new Point(x, y);
+        }
+
+        private Point calculatePointforConvexAngle() {
+            int x = (int) -(Math.sin(Math.toRadians(90 - (Double) angleSpinnerMirror.getValue())) * 300);
+            int y = (int) -(Math.cos(Math.toRadians(90 - (Double) angleSpinnerMirror.getValue())) * 300);
+            return new Point(x, y);
+        }
 
         private Point calculatePointForRoundAngle() {
-            int x = (int) (Math.sin(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
-            int y = (int) (Math.cos(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
+            int x = (int) (Math.sin(Math.toRadians(90 - (Double) angleSpinnerMirror.getValue())) * 300);
+            int y = (int) (Math.cos(Math.toRadians(90 - (Double) angleSpinnerMirror.getValue())) * 300);
             /*System.out.println("x="+x);
             System.out.println("y="+y);*/
             return new Point(x, y);
         }
 
-        private double getAngleToCoordinates() {
-            return -(Math.tan(Math.toRadians((Double) angleSpinnerMirror.getValue())) * HALF_MAINPANEL);
+
+        private double getAngleToCoordinatesForMirror() {
+            return -(Math.tan(Math.toRadians(90 - (Double) angleSpinnerMirror.getValue())) * HALF_MAINPANEL);
+        }
+
+        private double getAngleToCoordinatesForRefraction() {
+            return -(Math.tan(Math.toRadians((Double) indicentRayAngleRefraction.getValue())) * HALF_MAINPANEL);
         }
     }
 }
