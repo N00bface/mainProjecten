@@ -1,6 +1,4 @@
-package main;
-
-import objects.CDatabase;
+package main.java;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -15,13 +13,19 @@ public class SubstanceDatabase {
 
     public static String[] getSubstances() {
         CDatabase<String, Double> cDatabase = getIndexes();
-        Resources.setSubstanceList(cDatabase.getkeys());
+        try {
+            assert cDatabase != null;
+            Resources.setSubstanceList(cDatabase.getkeys());
+        } catch (NullPointerException e) {
+            System.out.println("no valid databasefile found");
+            System.exit(0);
+        }
         return cDatabase.getkeys();
     }
 
     public static CDatabase<String, Double> getIndexes() {
         try {
-            File file = new File(System.getProperty("user.dir") + "/baseIndexes.csv");
+            File file = new File(System.getProperty("user.dir") + "/src/resources/java/baseIndexes.csv");
             FileReader fileReader = new FileReader(file);
             BufferedReader bufferedReader = new BufferedReader(fileReader);
             String line;

@@ -1,4 +1,4 @@
-package objects;
+package main.java;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,8 @@ import java.util.List;
  * @version 0.1
  */
 public class CDatabase<K, V> {
-    private List<K> keys = new ArrayList<>();
-    private List<V> values = new ArrayList<>();
+    private List<K> keys = new ArrayList<K>();
+    private List<V> values = new ArrayList<V>();
     K key;
     V value;
 

@@ -1,6 +1,4 @@
-package main;
-
-import objects.CDatabase;
+package main.java;
 
 /**
  * @author Jari Van Melckebeke
