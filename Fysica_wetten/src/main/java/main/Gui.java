@@ -243,8 +243,8 @@ public class Gui {
         }
 
         private Point calculatePointforConvexAngle() {
-            int x = (int) -(Math.sin(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
-            int y = (int) -(Math.cos(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
+            int x = (int) (Math.sin(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
+            int y = (int) (Math.cos(Math.toRadians((Double) angleSpinnerMirror.getValue())) * 300);
             return new Point(x, y);
         }
 
