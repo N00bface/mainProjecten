@@ -7,6 +7,15 @@
     <groupId>Berekeningen</groupId>
     <artifactId>Fysica_spiegelwetten</artifactId>
     <version>1.9.4</version>
+    <packaging>jar</packaging>
+    <name>Fysica Spiegelwetten</name>
 
+    <dependencies>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.12</version>
+        </dependency>
+    </dependencies>
 
 </project>

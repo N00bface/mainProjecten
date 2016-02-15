@@ -1,4 +1,4 @@
-package main.java;
+package main;
 
 /**
  * @author Jari Van Melckebeke

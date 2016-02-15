@@ -1,7 +1,11 @@
-package main.java;
+package main;
 
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Jari Van Melckebeke
@@ -12,6 +16,9 @@ public class Gui {
     private GridBagConstraints constraints = new GridBagConstraints();
     private boolean switchPointBetweenMirrorAndRefraction = false;
     private boolean isTotalInternalReflectionActive = false;
+    private double indicentRayAngle = 0;
+    private double refractedRayAngle = 0;
+    private double mirrorAngle = 0;
     //end of special vars
     //Gui vars
     //basic
@@ -19,9 +26,9 @@ public class Gui {
     private JPanel mainPanel = new JPanel();
     private JPanel inputPanel = new JPanel(new GridBagLayout());
     //variable components
-    private JComboBox<String> mirrorSortComboBox = new JComboBox<>(new String[]{"flat", "hollow", "rounded"});
-    private JComboBox<String> substanceComboBox1 = new JComboBox<>(SubstanceDatabase.getSubstances());
-    private JComboBox<String> substanceComboBox2 = new JComboBox<>(SubstanceDatabase.getSubstances());
+    private JComboBox<String> mirrorSortComboBox = new JComboBox<String>(new String[]{"flat", "hollow", "rounded"});
+    private JComboBox<String> substanceComboBox1 = new JComboBox<String>(SubstanceDatabase.getSubstances());
+    private JComboBox<String> substanceComboBox2 = new JComboBox<String>(SubstanceDatabase.getSubstances());
     private JSpinner angleSpinnerMirror = new JSpinner(new SpinnerNumberModel(0, 0, 360, 0.1));
     private JSpinner indicentRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
     private JSpinner refractedRayAngleRefraction = new JSpinner(new SpinnerNumberModel(0, 0, 180, 0.1));
@@ -68,17 +75,37 @@ public class Gui {
     }
 
     private void setupActionListeners() {
-        substanceComboBox1.addActionListener(e -> refractionActionListner());
-        substanceComboBox2.addActionListener(e -> refractionActionListner());
-        indicentRayAngleRefraction.addChangeListener(e -> refractionActionListner());
-        refractedRayAngleRefraction.addChangeListener(e -> refractionActionListner());
-        mirrorSortComboBox.addActionListener(e -> {
-            switchPointBetweenMirrorAndRefraction = true;
-            new Draw().paintComponent(mainPanel.getGraphics());
+        substanceComboBox1.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                refractionActionListner();
+            }
         });
-        angleSpinnerMirror.addChangeListener(e -> {
-            switchPointBetweenMirrorAndRefraction = true;
-            new Draw().paintComponent(mainPanel.getGraphics());
+        substanceComboBox2.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                refractionActionListner();
+            }
+        });
+        indicentRayAngleRefraction.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                refractionActionListner();
+            }
+        });
+        refractedRayAngleRefraction.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                refractionActionListner();
+            }
+        });
+        mirrorSortComboBox.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                switchPointBetweenMirrorAndRefraction = true;
+                new Draw().paintComponent(mainPanel.getGraphics());
+            }
+        });
+        angleSpinnerMirror.addChangeListener(new ChangeListener() {
+            public void stateChanged(ChangeEvent e) {
+                switchPointBetweenMirrorAndRefraction = true;
+                new Draw().paintComponent(mainPanel.getGraphics());
+            }
         });
     }
 
@@ -129,6 +156,31 @@ public class Gui {
         }
     }
 
+    public double getIndicentRayAngle() {
+        return indicentRayAngle;
+    }
+
+    public void setIndicentRayAngle(double indicentRayAngle) {
+        this.indicentRayAngle = indicentRayAngle;
+    }
+
+    public double getRefractedRayAngle() {
+        refractedRayAngle = calculateRefractionAngle();
+        return refractedRayAngle;
+    }
+
+    public void setRefractedRayAngle(double refractedRayAngle) {
+        this.refractedRayAngle = refractedRayAngle;
+    }
+
+    public double getMirrorAngle() {
+        return mirrorAngle;
+    }
+
+    public void setMirrorAngle(double mirrorAngle) {
+        this.mirrorAngle = mirrorAngle;
+    }
+
     class Draw extends JPanel {
         private final int HALF_MAINPANEL = (mainPanel.getWidth() / 2);
 
@@ -158,7 +210,7 @@ public class Gui {
                         break;
                 }
             } else {
-                System.out.println("isTotalInternalReflectionActive = " + isTotalInternalReflectionActive);
+                //System.out.println("isTotalInternalReflectionActive = " + isTotalInternalReflectionActive);
                 gr.setColor(new Color(173, 216, 230));
                 gr.fillRect(0, -(mainPanel.getHeight() / 2), HALF_MAINPANEL, mainPanel.getHeight());
                 gr.setColor(Color.RED);
@@ -173,7 +225,7 @@ public class Gui {
         }
 
         private int getAngleToCoordinatesForTotalInternalReflection() {
-            System.out.println("Angle Method");
+            //System.out.println("Angle Method");
             return (int) (HALF_MAINPANEL / Math.tan(Math.toRadians(90 - (Double) indicentRayAngleRefraction.getValue())));
         }
 
@@ -199,7 +251,6 @@ public class Gui {
             return new Point(x, y);
         }
 
-
         private double getAngleToCoordinatesForMirror() {
             return -(Math.tan(Math.toRadians(90 - (Double) angleSpinnerMirror.getValue())) * HALF_MAINPANEL);
         }
@@ -208,4 +259,5 @@ public class Gui {
             return -(Math.tan(Math.toRadians((Double) indicentRayAngleRefraction.getValue())) * HALF_MAINPANEL);
         }
     }
+
 }
