@@ -10,8 +10,8 @@ import java.awt.*;
 public class Gui {
     //special vars
     private GridBagConstraints constraints = new GridBagConstraints();
-    private boolean switchPointBetweenMirrorAndRefraction = true;
-    private boolean isTotalInternalRefractionActive = false;
+    private boolean switchPointBetweenMirrorAndRefraction = false;
+    private boolean isTotalInternalReflectionActive = false;
     //end of special vars
     //Gui vars
     //basic
@@ -32,6 +32,7 @@ public class Gui {
         panelSetup();
         addComponents();
         setupActionListeners();
+        new Draw().paintComponent(mainPanel.getGraphics());
     }
 
     private GridBagConstraints setGridBagPlace(int x, int y) {
@@ -67,28 +68,10 @@ public class Gui {
     }
 
     private void setupActionListeners() {
-        substanceComboBox1.addActionListener(e -> {
-            new Draw().paintComponent(mainPanel.getGraphics());
-            if (!isTotalInternalRefractionActive) {
-                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
-            } else {
-                refractedRayAngleRefraction.setValue("TIR");
-            }
-            switchPointBetweenMirrorAndRefraction = false;
-            maxAngle.setText(Calculator.getMaxAngle(String.valueOf(substanceComboBox1.getSelectedItem()), String.valueOf(substanceComboBox2.getSelectedItem())));
-            isTotalInternalRefractionActive = false;
-        });
-        substanceComboBox2.addActionListener(e -> {
-            new Draw().paintComponent(mainPanel.getGraphics());
-            maxAngle.setText(Calculator.getMaxAngle(String.valueOf(substanceComboBox1.getSelectedItem()), String.valueOf(substanceComboBox2.getSelectedItem())));
-            if (!isTotalInternalRefractionActive) {
-                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
-            } else {
-                refractedRayAngleRefraction.setValue("TIR");
-            }
-            switchPointBetweenMirrorAndRefraction = false;
-            isTotalInternalRefractionActive = false;
-        });
+        substanceComboBox1.addActionListener(e -> refractionActionListner());
+        substanceComboBox2.addActionListener(e -> refractionActionListner());
+        indicentRayAngleRefraction.addChangeListener(e -> refractionActionListner());
+        refractedRayAngleRefraction.addChangeListener(e -> refractionActionListner());
         mirrorSortComboBox.addActionListener(e -> {
             switchPointBetweenMirrorAndRefraction = true;
             new Draw().paintComponent(mainPanel.getGraphics());
@@ -97,26 +80,14 @@ public class Gui {
             switchPointBetweenMirrorAndRefraction = true;
             new Draw().paintComponent(mainPanel.getGraphics());
         });
-        indicentRayAngleRefraction.addChangeListener(e -> {
-            switchPointBetweenMirrorAndRefraction = false;
-            new Draw().paintComponent(mainPanel.getGraphics());
-            if (!isTotalInternalRefractionActive) {
-                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
-            } else {
-                refractedRayAngleRefraction.setValue("TIR");
-            }
-            isTotalInternalRefractionActive = false;
-        });
-        refractedRayAngleRefraction.addChangeListener(e -> {
-            switchPointBetweenMirrorAndRefraction = false;
-            new Draw().paintComponent(mainPanel.getGraphics());
-            if (!isTotalInternalRefractionActive) {
-                refractedRayAngleRefraction.setValue(calculateRefractionAngle());
-            } else {
-                refractedRayAngleRefraction.setValue("TIR");
-            }
-            isTotalInternalRefractionActive = false;
-        });
+    }
+
+    private void refractionActionListner() {
+        new Draw().paintComponent(mainPanel.getGraphics());
+        refractedRayAngleRefraction.setValue(calculateRefractionAngle());
+        switchPointBetweenMirrorAndRefraction = false;
+        maxAngle.setText(Calculator.getMaxAngle(String.valueOf(substanceComboBox1.getSelectedItem()), String.valueOf(substanceComboBox2.getSelectedItem())));
+        isTotalInternalReflectionActive = false;
     }
 
     private void panelSetup() {
@@ -150,8 +121,9 @@ public class Gui {
             double sinR = nIndex * sinI;
             //System.out.println("sinR = " + sinR);
             //System.out.println("Math.toDegrees(Math.asin(sinR)) = " + Math.toDegrees(Math.asin(sinR)));
+            //System.out.println("Math.toDegrees(Math.asin(sinR)) = " + Math.toDegrees(Math.asin(sinR)));
             if (String.valueOf(Math.toDegrees(Math.asin(sinR))).equals("NaN")) {
-                isTotalInternalRefractionActive = true;
+                isTotalInternalReflectionActive = true;
             }
             return Math.toDegrees(Math.asin(sinR));
         }
@@ -186,13 +158,23 @@ public class Gui {
                         break;
                 }
             } else {
+                System.out.println("isTotalInternalReflectionActive = " + isTotalInternalReflectionActive);
                 gr.setColor(new Color(173, 216, 230));
                 gr.fillRect(0, -(mainPanel.getHeight() / 2), HALF_MAINPANEL, mainPanel.getHeight());
                 gr.setColor(Color.RED);
                 gr.drawLine((int) getAngleToCoordinatesForRefraction(), -HALF_MAINPANEL, 0, 0);
-                gr.drawLine(0, 0, calculatePointForRefraction().x, calculatePointForRefraction().y);
+                if (!isTotalInternalReflectionActive) {
+                    gr.drawLine(0, 0, calculatePointForRefraction().x, calculatePointForRefraction().y);
+                } else {
+                    gr.drawLine(0, 0, -HALF_MAINPANEL, getAngleToCoordinatesForTotalInternalReflection());
+                }
             }
             gr.dispose();
+        }
+
+        private int getAngleToCoordinatesForTotalInternalReflection() {
+            System.out.println("Angle Method");
+            return (int) (HALF_MAINPANEL / Math.tan(Math.toRadians(90 - (Double) indicentRayAngleRefraction.getValue())));
         }
 
         private Point calculatePointForRefraction() {

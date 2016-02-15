@@ -15,8 +15,8 @@ public class SubstanceDatabase {
 
     public static String[] getSubstances() {
         CDatabase<String, Double> cDatabase = getIndexes();
-        Resources.setSubstanceList(cDatabase.getKeys());
-        return cDatabase.getKeys();
+        Resources.setSubstanceList(cDatabase.getkeys());
+        return cDatabase.getkeys();
     }
 
     public static CDatabase<String, Double> getIndexes() {
