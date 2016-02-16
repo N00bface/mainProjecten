@@ -44,9 +44,10 @@ public class LoadScreen {
         }
         conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/theCompanyDB", "root", "tanzania");
         statement = conn.createStatement();
-        set = statement.executeQuery("SELECT save_id, save_name, save_money, save_location, save_ship FROM saves");
+        set = statement.executeQuery("SELECT * FROM saves");
         while (set.next()) {
-            saves.add(new Save(set.getInt("save_id"), set.getString("save_name"), set.getString("save_location"), set.getInt("save_money"), set.getString("save_ship")));
+            saves.add(new Save(set.getInt("save_id"), set.getString("save_name"), set.getString("save_location"), set.getInt("save_money"), set.getInt("save_miners"),
+                    set.getInt("save_navy"), set.getInt("save_guards"), set.getInt("save_xp"), set.getString("save_ship")));
         }
         writeBoard();
         actionListener();
@@ -74,9 +75,10 @@ public class LoadScreen {
                 }
                 break;
             case Enter:
-                Save selected = new Save(0, "", "", 0, "");
+                Save selected = new Save();
                 for (int i = 0; i < choiceForMenu; i++) {
-                    selected = new Save(set.getInt("save_id"), set.getString("save_name"), set.getString("save_location"), set.getInt("save_money"), set.getString("save_ship"));
+                    selected = new Save(set.getInt("save_id"), set.getString("save_name"), set.getString("save_location"), set.getInt("save_money"), set.getInt("save_miners"),
+                            set.getInt("save_navy"), set.getInt("save_guards"), set.getInt("save_xp"), set.getString("save_ship"));
                 }
                 new Game(terminal, selected);
         }
