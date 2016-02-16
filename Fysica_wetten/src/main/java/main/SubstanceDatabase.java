@@ -38,6 +38,15 @@ public class SubstanceDatabase {
         } catch (IOException ignored) {
             return null;
         }*/
+        try {
+            Class.forName("com.mysql.jdbc.Driver").newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         String host = "jdbc:mysql://localhost:3306/indexDatabase";
         String user = "root";
         String passw = "tanzania";
