@@ -7,4 +7,8 @@ public class Game {
     public Game(Terminal mainTerminal) {
 
     }
+
+    public Game(Terminal terminal, Save selected) {
+
+    }
 }

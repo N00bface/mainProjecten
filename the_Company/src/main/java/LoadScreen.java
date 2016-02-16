@@ -1,4 +1,6 @@
+import com.googlecode.lanterna.input.Key;
 import com.googlecode.lanterna.terminal.Terminal;
+import org.jetbrains.annotations.NotNull;
 
 import java.awt.*;
 import java.sql.*;
@@ -11,14 +13,18 @@ public class LoadScreen {
     private Terminal terminal;
     private Point cursor = new Point(0, 0);
     private ArrayList<Save> saves = new ArrayList<Save>();
+    private int choiceForMenu = 0;
+    public ResultSet set;
+    public Connection conn;
+    public Statement statement;
 
-    public LoadScreen(Terminal mainTerminal) throws SQLException {
+    public LoadScreen(Terminal mainTerminal) throws SQLException, InterruptedException {
         terminal = mainTerminal;
         terminal.clearScreen();
         drawScreen();
     }
 
-    private void drawScreen() throws SQLException {
+    private void drawScreen() throws SQLException, InterruptedException {
         writeText("___   _         ___ ___");
         writeText("|__  /_\\   \\ / |__ |__");
         writeText("__| /   \\   V  |__ __|");
@@ -26,7 +32,7 @@ public class LoadScreen {
         loadSaves();
     }
 
-    private void loadSaves() throws SQLException {
+    private void loadSaves() throws SQLException, InterruptedException {
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
         } catch (ClassNotFoundException e) {
@@ -36,13 +42,45 @@ public class LoadScreen {
         } catch (IllegalAccessException e) {
             e.printStackTrace();
         }
-        Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/theCompanyDB", "root", "tanzania");
-        Statement statement = conn.createStatement();
-        ResultSet set = statement.executeQuery("SELECT save_id, save_name, save_money, save_location, save_ship FROM saves");
+        conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/theCompanyDB", "root", "tanzania");
+        statement = conn.createStatement();
+        set = statement.executeQuery("SELECT save_id, save_name, save_money, save_location, save_ship FROM saves");
         while (set.next()) {
             saves.add(new Save(set.getInt("save_id"), set.getString("save_name"), set.getString("save_location"), set.getInt("save_money"), set.getString("save_ship")));
         }
         writeBoard();
+        actionListener();
+    }
+
+    private void actionListener() throws InterruptedException, SQLException {
+        Key key = null;
+        while (key == null) {
+            Thread.sleep(5);
+            key = terminal.readInput();
+        }
+        switch (key.getKind()) {
+            case ArrowDown:
+                if (choiceForMenu < saves.size() + 1) {
+                    choiceForMenu++;
+                    terminal.clearScreen();
+                    drawScreen();
+                }
+                break;
+            case ArrowUp:
+                if (choiceForMenu > 0) {
+                    choiceForMenu--;
+                    terminal.clearScreen();
+                    drawScreen();
+                }
+                break;
+            case Enter:
+                Save selected = new Save(0, "", "", 0, "");
+                for (int i = 0; i < choiceForMenu; i++) {
+                    selected = new Save(set.getInt("save_id"), set.getString("save_name"), set.getString("save_location"), set.getInt("save_money"), set.getString("save_ship"));
+                }
+                new Game(terminal, selected);
+        }
+
     }
 
     private void writeBoard() {
@@ -54,11 +92,15 @@ public class LoadScreen {
                     + "|" + save.getSave_name() + (multiply(15 - String.valueOf(save.getSave_name()).length()))
                     + "|" + save.getSave_location() + (multiply(10 - String.valueOf(save.getSave_location()).length()))
                     + "|" + save.getSave_money() + (multiply(8 - String.valueOf(save.getSave_money()).length()))
-                    + "|" + save.getSave_ship() + (multiply(10 - String.valueOf(save.getSave_ship()).length()))+"|");
+                    + "|" + save.getSave_ship() + (multiply(10 - String.valueOf(save.getSave_ship()).length())) + "|");
         }
         writeText("+--+---------------+----------+--------+----------+");
+        terminal.moveCursor(50, choiceForMenu + 7);
+        terminal.putCharacter('<');
     }
 
+
+    @NotNull
     private String multiply(int count) {
         return new String(new char[count]).replace('\0', ' ');
     }
