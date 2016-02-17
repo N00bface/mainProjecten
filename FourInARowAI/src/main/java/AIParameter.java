@@ -7,6 +7,6 @@ public class AIParameter {
     }
 
     public static AIParameter getParameters() {
-
+        return null;
     }
 }
