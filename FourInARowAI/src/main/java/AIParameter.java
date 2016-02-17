@@ -5,4 +5,8 @@ public class AIParameter {
     public static double getWinPossibility() {
 
     }
+
+    public static AIParameter getParameters() {
+
+    }
 }
