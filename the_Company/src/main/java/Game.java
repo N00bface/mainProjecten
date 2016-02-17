@@ -2,6 +2,7 @@ import com.googlecode.lanterna.TerminalFacade;
 import com.googlecode.lanterna.terminal.Terminal;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * @autor Jari Van Melckebeke
@@ -20,10 +21,10 @@ public class Game {
     }
 
     private void createField() {
-        GameEnvironment.getFieldDatabase();
+        ArrayList places = GameEnvironment.getFieldDatabase();
     }
 
-    private void moveToLocation(String name) {
+    private void moveToLocation(String fromName,String name) {
 
     }
 }
