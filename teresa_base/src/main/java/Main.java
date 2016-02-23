@@ -1,44 +1,16 @@
-import edu.cmu.sphinx.api.Configuration;
-import edu.cmu.sphinx.api.Microphone;
-import edu.cmu.sphinx.recognizer.Recognizer;
-import edu.cmu.sphinx.result.Result;
-import edu.cmu.sphinx.util.props.ConfigurationManager;
-
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import edu.cmu.sphinx.api.*;
 
 /**
- * @autor Jari Van Melckebeke
+ * @author Jari Van Melckebeke
  */
 public class Main {
     /**
      * in deze methode vind de main runtime plaats.
-     *
-     * @param args
+     * @param args default system variables
      */
-    public static void main(String[] args) throws MalformedURLException {
+    public static void main(String[] args) throws Exception {
         System.out.println("system started");
-
-        String command = getCommand(args);
-    }
-
-    /**
-     * @return het aangekomen commando zonder het 'Teresa' keyword
-     */
-    private static String getCommand(String[] args) throws MalformedURLException {
-        Configuration config = new Configuration();
-        config.setAcousticModelPath("");
-        recognizer.allocate();
-        microphone.startRecording();
-
-        while (true) {
-            Result result = recognizer.recognize();
-            if (result != null) {
-                String resultText = result.getBestFinalResultNoFiller();
-                System.out.println(resultText);
-                return resultText;
-            }
-        }
+        Input input = new Input();
+        String command = input.getCommand();
     }
 }
