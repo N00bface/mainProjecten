@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -18,6 +18,10 @@
                 <enabled>true</enabled>
             </snapshots>
         </repository>
+        <repository>
+            <id>spring-milestones</id>
+            <url>http://repo.spring.io/libs-milestone/</url>
+        </repository>
     </repositories>
 
     <dependencies>
@@ -25,6 +29,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>
@@ -42,14 +47,24 @@
             <version>5prealpha-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>javax.mail</groupId>
-            <artifactId>mail</artifactId>
-            <version>1.5.0-b01</version>
+            <groupId>de.dfki.mary</groupId>
+            <artifactId>marytts</artifactId>
+            <version>5.1.2</version>
+        </dependency>
+        <dependency>
+            <groupId>de.dfki.mary</groupId>
+            <artifactId>marytts-lang-en</artifactId>
+            <version>5.1.2</version>
         </dependency>
         <dependency>
             <groupId>net.sf.sociaal</groupId>
             <artifactId>freetts</artifactId>
             <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>de.dfki.mary</groupId>
+            <artifactId>voice-cmu-slt-hsmm</artifactId>
+            <version>5.1.2</version>
         </dependency>
     </dependencies>
 

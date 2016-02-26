@@ -1,13 +1,8 @@
-import javax.mail.Folder;
-import javax.mail.Session;
-import javax.mail.Store;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Properties;
 
 /**
  * @author Jari Van Melckebeke
@@ -28,9 +23,11 @@ public class Action {
     public static String doAction(String command) {
         HashMap<String, String> questionDatabase = new Resources().getDatabase();
         String returnType = "";
+        String str = null;
         try {
+            System.out.println(command);
             Method actionMethod = Class.forName("Action").getMethod(questionDatabase.get(command));
-            actionMethod.invoke(returnType);
+            return (String) actionMethod.invoke(returnType);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         } catch (ClassNotFoundException e) {
@@ -43,32 +40,11 @@ public class Action {
         return returnType;
     }
 
-    private static String getNotifications() {
-        Properties props = new Properties();
-        //props.setProperty("mail.store.protocol", "imap");
-        props.setProperty("mail.protocol", "pop3");
-        props.setProperty("mail.host", "pop3.live.com");
-        props.put("mail.pop3.starttls.enable", "true");
-        props.put("mail.pop3.auth", "true");
-        try {
-            Session session = Session.getInstance(props, null);
-            session.setDebug(true);
-            Store store = session.getStore();
-            System.out.println("store gotten");
-            store.connect("pop3.live.com", "jarivm@outlook.com", "Tanzania1");
-            System.out.println("connected");
-            Folder inbox = store.getFolder("INBOX");
-            System.out.println(inbox.getNewMessageCount());
-            return "you have " + inbox.getNewMessageCount() + "new mails";
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "wrong";
-        }
-    }
 
-    private static String getTime(){
+    public static String getTime() {
         Calendar calendar = Calendar.getInstance();
         SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");
-        return dateFormat.format(calendar.getTime());
+        System.out.println(dateFormat.format(calendar.getTime()));
+        return "it is " + dateFormat.format(calendar.getTime()).substring(0, 2) + " hour " + dateFormat.format(calendar.getTime()).substring(3);
     }
 }
