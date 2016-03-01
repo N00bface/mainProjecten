@@ -29,8 +29,15 @@ public static void main(String[] args){
 private static String getAnswer(int width, int height,int stuk_height, int stuk_width, String[] ascii, String[] stuk){
   //1: bereken de combo's
   char[][][] stuk_chars = new char[4][stuk_height][stuk_width];
-  //1.1: steek oorspronkelijke chars in de stukken
-  for(String lijn: stuk){
-    
+  //1.1: steek het oorspronklijke stuk in de 2D-charArray
+  for(int i = 0; i< stuk.lenght; i++){
+    stuk_chars[0][i]  = stuk[i].toCharArray();
+  }
+  //1.2: eerste combinatie: 90° gedraaid
+  char[][] oorspr_stuk = stuk_chars[0];
+  for(int i = 0; i< stuk[1].length){
+    for(int j = 0; j< stuk[1][j].length){
+      stuk[1][i][j] 
+    }
   }
 }
