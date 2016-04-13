@@ -1,1 +1,3 @@
-# projecten2015-2016
+# random projects
+
+Here you'll find all my random projects, most of them are sadly not finished
