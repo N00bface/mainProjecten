@@ -1,9 +1,5 @@
 {
   "user": "N00bface",
   "repo": "Site",
-  "style": {
-    "background_color":"#000000",
-    "foreground_color":"#ffffff"
-    "perspective":"2d"
-  }
+  "style": "default_1"
 }
