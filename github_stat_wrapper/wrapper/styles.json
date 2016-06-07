@@ -1,5 +1,12 @@
-["default_1": {
+[
+    "default_1": {
     "background_color":"#000000";
     "foreground_color":"#ffffff"
-    "perspective":"2d";
-  }]
+    "perspective":"2d"
+    },
+    "dark_1": {
+        "background_color": "#ffffff",
+        "foreground_color": "#000000",
+        "perspective": "2d"
+    }
+  ]
