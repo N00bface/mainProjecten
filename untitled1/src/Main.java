@@ -19,7 +19,9 @@ public class Main {
                     break;
                 }
                 robot.keyPress(KeyEvent.VK_COMMA);
+                robot.keyRelease(KeyEvent.VK_COMMA);
                 robot.keyPress(KeyEvent.VK_ENTER);
+                robot.keyRelease(KeyEvent.VK_ENTER);
             }
         } catch (AWTException e) {
             e.printStackTrace();
