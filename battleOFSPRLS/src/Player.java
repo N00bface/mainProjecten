@@ -16,8 +16,11 @@ public class Player {
     private int num_of_ids = 0;
     private boolean isgoing = false;
     private String start_figure;
-
     private Random random = new Random();
+
+    public void setNum_of_ids(int num_of_ids) {
+        this.num_of_ids = num_of_ids;
+    }
 
     public int getId() {
         return id;

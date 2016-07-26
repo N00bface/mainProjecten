@@ -9,10 +9,11 @@ import java.util.Scanner;
 public class Startup {
     private static final int MAP_WIDTH = 25000;
     private static final int MAP_HEIGHT = 25000;
-    private static final int NUM_PLAYERS = 1000;
+    private static final int NUM_PLAYERS = 100;
     private static final int STEPS_UNTIL_END = 1000;
 
     private static Player[] players = new Player[NUM_PLAYERS];
+    private static Thread[] threads = new Thread[STEPS_UNTIL_END];
 
     private static boolean endresult = true, all = false;
     private static int bullies = 0;
@@ -74,17 +75,22 @@ public class Startup {
 
     private static void run() {
         for (int i = 0; i < STEPS_UNTIL_END; i++) {
-            for (int i1 = 1; i1 < players.length; i1++) {
-                Player player = players[i1];
-                player.makeMove(all);
-            }
-            checkSamePlace();
+            threads[i] = new Thread(() -> {
+                for (int i1 = 1; i1 < players.length; i1++) {
+                    Player player = players[i1];
+                    player.makeMove(all);
+                }
+                checkSamePlace();
+            });
+        }
+        for (int i = 0; i < STEPS_UNTIL_END; i++) {
+            threads[i].run();
         }
         //check winner
         int[] arr = new int[10];
         Arrays.fill(arr, 0);
         for (int i = 1; i < 10; i++) {
-            for (int j = 1; j < (NUM_PLAYERS / 9) + 1; j++) {
+            for (int j = 1; j < (NUM_PLAYERS / 9); j++) {
                 arr[i] += players[i * j].getNum_of_ids();
             }
         }
@@ -119,17 +125,35 @@ public class Startup {
             return;
         boolean winner = false;
         if (player1.getId() >= NUM_PLAYERS - 2) {
-            System.out.println("Theo Plancken or Filip De Zomer has bullied player 1");
             player2.getAspects();
-            player2.makeMove(all);
+            if (player1.getId() == NUM_PLAYERS - 2) {
+                if (all) {
+                    System.out.println("Theo Plancken has bullied player 2");
+                }
+            } else {
+                if (all) {
+                    System.out.println("Filip De Zomer has bullied player 2");
+                }
+                player2.setNum_of_ids(0);
+            }
             bullies++;
+            player2.makeMove(all);
             return;
         }
         if (player2.getId() >= NUM_PLAYERS - 2) {
-            System.out.println("Theo Plancken or Filip De Zomer has bullied player 2");
             player1.getAspects();
-            player1.makeMove(all);
+            if (player2.getId() == NUM_PLAYERS - 2) {
+                if (all) {
+                    System.out.println("Theo Plancken has bullied player 1");
+                }
+            } else {
+                if (all) {
+                    System.out.println("Filip De Zomer has bullied player 1");
+                }
+                player1.setNum_of_ids(0);
+            }
             bullies++;
+            player1.makeMove(all);
             return;
         }
         while (!winner) {
