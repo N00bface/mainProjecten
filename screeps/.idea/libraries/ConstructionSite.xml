@@ -1,0 +1,84 @@
+<component name="libraryTable">
+  <library name="ConstructionSite" type="javaScript">
+    <properties>
+      <sourceFilesUrls>
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureWall.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/ConstructionSite.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Creep.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Flag.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Game.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Global/Constants.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Memory.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Mineral.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Nuke.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/OwnedStructure.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/PathFinder.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/RawMemory.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Resource.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Room.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/RoomObject.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/RoomPosition.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Source.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structure.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureContainer.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureController.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureExtension.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureExtractor.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureKeeperLair.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureLab.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureLink.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureNuker.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureObserver.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructurePortal.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructurePowerBank.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructurePowerSpawn.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureRampart.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureRoad.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureSpawn.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureStorage.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureTerminal.js" />
+        <item url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureTower.js" />
+      </sourceFilesUrls>
+    </properties>
+    <CLASSES>
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureWall.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/ConstructionSite.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Creep.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Flag.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Game.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Global/Constants.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Memory.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Mineral.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Nuke.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/OwnedStructure.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/PathFinder.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/RawMemory.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Resource.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Room.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/RoomObject.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/RoomPosition.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Source.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structure.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureContainer.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureController.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureExtension.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureExtractor.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureKeeperLair.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureLab.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureLink.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureNuker.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureObserver.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructurePortal.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructurePowerBank.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructurePowerSpawn.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureRampart.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureRoad.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureSpawn.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureStorage.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureTerminal.js" />
+      <root url="file://$USER_HOME$/programs/ScreepsAutocomplete-master/Structures/StructureTower.js" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

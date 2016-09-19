@@ -1,0 +1,10 @@
+classes:
+
+WoordGokSpel
+	String[] woordenlijst
+	int ronde
+	
+Speler
+	String naam
+	gokWoord()
+	
